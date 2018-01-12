@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Demo</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <!--<link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.min.css')}}">-->
+    <link rel="stylesheet" href="{{url_for('static',filename='css/main.css')}}">
+    <!--<script src="{{url_for('static',filename='js/jquery.min.js')}}"></script>-->
+    <!--<script src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>-->
+    <!--<script src="{{url_for('static',filename='js/main.js')}}"></script>-->
+    <script src="{{url_for('static',filename='js/echarts.min.js')}}"></script>
+
+
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Demo演示</a>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid zerolmp" style="margin-left: 10px">
+    <div class="row-fluid">
+        <div class="col-md-2">
+            <ul id="tabs" class="nav nav-pills nav-stacked nav-tabs" data-target="tabs">
+                <li class="active">
+                    <a data-target="#entity-search" data-toggle="tab">
+                        <span class="glyphicon glyphicon-search"> 实体查询</span>
+                    </a>
+                </li>
+                <li>
+                    <a data-target="#template-search" data-toggle="tab">
+                        <span class="glyphicon glyphicon-book"> 模板查询</span>
+                    </a>
+                </li>
+                <li>
+                    <a data-target="#relation-search" data-toggle="tab">
+                        <span class="glyphicon glyphicon-transfer"> 关系查询</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="glyphicon glyphicon-cog"> 关于</span>
+                    </a>
+                </li>
+            </ul>
+            <br>
+            <div class="container-fluid" id="year-div">
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div id="my-tab-content" class="tab-content">
+                <div class="tab-pane active" id="entity-search">
+                    <!--Content-->
+                    <div class="container">
+                        <label for="search1-input"><h4><span class="label label-primary">实体查询</span></h4>
+                                </label>
+                        <form class="form-inline" id="search1" role="form" method="post" onsubmit="return false;">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="search1-input" placeholder="请输入公司或个人"
+                                       required>
+                            </div>
+                            <button type="submit" class="btn btn-default">提交</button>
+                        </form>
+                    </div>
+                    <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+                    <div id="main-parent1" class="container">
+                        <div id="main1"></div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="template-search">
+                    <!--Content-->
+                    <div class="container">
+                        <label for="search2-input"><h4><span class="label label-success">模板查询</span></h4>
+                             </label>
+                        <form class="form-inline" id="search2" role="form" method="post" onsubmit="return false;">
+
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="search2-input" placeholder="请输入公司名称"
+                                       required>
+                                <select name="object" style="height: 32px">
+                                    <option value="securityID">证券号</option>
+                                    <option value="penalty">处罚情况</option>
+                                    <option value="lawsuit">法律纠纷</option>
+                                    <option value="manager">管理人员</option>
+                                    <option value="capitalchange">股本变动</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-default">提交</button>
+                        </form>
+                    </div>
+                    <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+                    <div id="main-parent2" class="container">
+                        <div id="main2"></div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="relation-search">
+                    <!--Content-->
+                    <div class="container">
+                        <form class="form-inline" id="search3" role="form" method="post" onsubmit="return false;">
+                            <div class="form-group">
+                                <label for="search3-input"><h4><span class="label label-info">关系查询</span></h4></label>
+                                <input type="text" class="form-control" id="search3-input" placeholder="请输入,以空格分隔"
+                                       required>
+                            </div>
+                            <button type="submit" class="btn btn-default">提交</button>
+                        </form>
+                    </div>
+                    <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+                    <div id="main-parent3" class="container">
+                        <div id="main3"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<footer class="footer navbar-fixed-bottom">
+    <hr/>
+    <div class="container">
+        <p><b>武汉大学深圳小分队</b> Copyright © 2017</p>
+    </div>
+</footer>
+<script type="text/javascript">
+    $(function () {
+        function footerPosition() {
+            $("footer").removeClass("fixed-bottom");
+            var contentHeight = document.body.scrollHeight,//网页正文全文高度
+                winHeight = window.innerHeight;//可视窗口高度，不包括浏览器顶部工具栏
+            if (!(contentHeight > winHeight)) {
+                //当网页正文高度小于可视窗口高度时，为footer添加类fixed-bottom
+                $("footer").addClass("fixed-bottom");
+            } else {
+                $("footer").removeClass("fixed-bottom");
+            }
+        }
+
+        footerPosition();
+        $(window).resize(footerPosition);
+    });
+</script>
+<<script src="{{url_for('static',filename='js/graph1.js')}}"></script>
+</body>
+</html>
