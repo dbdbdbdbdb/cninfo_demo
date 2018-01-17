@@ -113,6 +113,7 @@ $(document).ready(function () {
         var form_id = this.id;
         console.log(form_id);
         // 抓取提交的input值
+        inputv = $('#' + form_id + ' input');
         first = $('#' + form_id + ' input').val();
         second = form_id;
         third = $('#' + form_id + ' select').val();
@@ -169,7 +170,22 @@ $(document).ready(function () {
             })
         }
         if (second === 'search3') {
-
+            entity_1 = inputv[0].value;
+            entity_2 = inputv[1].value;
+            $.ajax({
+                type: "POST",
+                url: "/",
+                cache: false,
+                data: {'search_type': second, 'entity1': entity_1, 'entity2': entity_2},
+                success: function (json_str) {
+                    console.log('success');
+                    console.log(typeof json_str);
+                    // console.log(json_str)
+                    json_list = JSON.parse(json_str);
+                    console.log(Array.isArray(json_list));
+                    crt_table(json_list)
+                }
+            })
         }
     });
 

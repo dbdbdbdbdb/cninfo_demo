@@ -28,6 +28,11 @@ def home():
             json_list=query.template_search(str_to_solve, select_object)
             # print(json_list)
             return json_list
+        if search_type=='search3':
+            entity_1 = request.form.get('entity1')
+            entity_2 = request.form.get('entity2')
+            json_list=query.relation_search(entity_1, entity_2)
+            return json_list
     return render_template('index.html')
 
 

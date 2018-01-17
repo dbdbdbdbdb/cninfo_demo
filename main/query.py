@@ -84,3 +84,31 @@ def template_search(str_to_solve, select_object):
 
 # print(template_search('公司的证券号是多少？'))
 # template_search('南华生物医药股份有限公司的证券号是多少')
+
+def relation_search(entity1, entity2):
+    #entity1和entity2都是公司
+    if len(entity1)>4 and len(entity2)>4:
+        pred1 = '<http://cn.info/vocab/organization_ORGNAME>'
+        pred2 = '<http://cn.info/vocab/organization_ORGNAME>'
+    #entity1是公司，entity2是个人
+    elif len(entity1)>4 and len(entity2)<=4:
+        pred1 = '<http://cn.info/vocab/organization_ORGNAME>'
+        pred2 = '<http://cn.info/vocab/naturalperson_PERSONNAME>'
+    #entity1是个人，entity2是公司
+    elif len(entity1)<=4 and len(entity2)>4:
+        pred1 = '<http://cn.info/vocab/naturalperson_PERSONNAME>'
+        pred2 = '<http://cn.info/vocab/organization_ORGNAME>'
+    #entity1和entity2都是个人
+    else:
+        pred1 = '<http://cn.info/vocab/naturalperson_PERSONNAME>'
+        pred2 = '<http://cn.info/vocab/naturalperson_PERSONNAME>'
+    sparql='select ?x1 ?y1 ?z ?y2 ?x2\n' + \
+               '{\n' + \
+               '\t?x1 ' + pred1 + ' "' + entity1 + '".\n' + \
+               '\t?x2 ' + pred2 + ' "' + entity2 + '".\n' + \
+               '\t?x1 ?y1 ?z.\n' + \
+               '\t?z ?y2 ?x2.\n}'
+    answer = query_result(sparql)
+    print(answer)
+
+    return answer
