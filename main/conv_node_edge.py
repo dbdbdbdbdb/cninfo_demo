@@ -47,6 +47,25 @@ def to_triples_list(query_result):
     # print(triples_list[len(triples_list) - 1]['z']['type'])
     return triples_list
 
+def to_relation_list(query_result):
+    #f = open('sparql_answer.txt', encoding='utf-8')
+    #query_result = f.read()
+    #如果value中包含\n，eval会出错
+    query_result = query_result.replace('\n','')
+    # 找到bindings的起始位置
+    begin_offset = query_result.find('"bindings":')
+    end_offset=query_result.rfind(']')
+    #print('offset: ', begin_offset, end_offset)
+    try:
+        #print(query_result[begin_offset + 14:end_offset+1])
+        triples_list = eval(query_result[begin_offset + 14:end_offset+1])
+        #print(triples_list)
+    except Exception as e:
+        print(e)
+        return
+    # 演示操作.链式操作对应列表-字典-字典-键值对的数据层级.
+    # print(triples_list[len(triples_list) - 1]['z']['type'])
+    return triples_list
 
 # 可以加到所有年份的triples(即无时间属性)
 def triple_can_add2all(triple_dict, years_list, triples_per_year_dict):

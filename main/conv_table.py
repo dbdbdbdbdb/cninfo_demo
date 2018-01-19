@@ -183,4 +183,3 @@ def group2table(answer_list):
                 record_dict['z'] = i['z']['value']
             json_list.append(record_dict)
     return json_list
-

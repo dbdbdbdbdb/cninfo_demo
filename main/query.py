@@ -77,7 +77,7 @@ def template_search(str_to_solve, select_object):
     #with open('sparql_answer.txt', 'w', encoding='utf-8') as f:
     #    f.write(answer)
     answer_list=conv_node_edge.to_triples_list(answer)
-    conv_table.group2table(answer_list)
+    #conv_table.group2table(answer_list)
     json_list=conv_table.conv2table(answer_list)
     json_list=json.dumps(json_list)
     return json_list
@@ -109,6 +109,7 @@ def relation_search(entity1, entity2):
                '\t?x1 ?y1 ?z.\n' + \
                '\t?z ?y2 ?x2.\n}'
     answer = query_result(sparql)
-    print(answer)
+    answer_list = conv_node_edge.to_relation_list(answer)
+    json_list = json.dumps(answer_list)
 
-    return answer
+    return json_list

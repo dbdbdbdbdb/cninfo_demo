@@ -165,7 +165,7 @@ $(document).ready(function () {
                     // console.log(json_str)
                     json_list = JSON.parse(json_str);
                     console.log(Array.isArray(json_list));
-                    crt_table(json_list)
+                    crt_table(json_list);
                 }
             })
         }
@@ -178,12 +178,10 @@ $(document).ready(function () {
                 cache: false,
                 data: {'search_type': second, 'entity1': entity_1, 'entity2': entity_2},
                 success: function (json_str) {
+                    console.log(json_str);
                     console.log('success');
-                    console.log(typeof json_str);
-                    // console.log(json_str)
                     json_list = JSON.parse(json_str);
-                    console.log(Array.isArray(json_list));
-                    crt_table(json_list)
+                    relation_table(json_list);
                 }
             })
         }
@@ -266,6 +264,25 @@ function crt_table(json_list) {
         str += "</tr>"
     }
     console.log(str);
+    $('#answer-table').append(str)
+}
+
+function relation_table(json_list) {
+    var data = json_list;
+    console.log(data);
+    $('#year-div').empty();
+    $('#main3').empty().append('<div class="table-responsive"><table class="table table-bordered table-hover table-condensed" id="answer-table"></table></div>')
+    var str = '';
+    for (var i in data) {
+        console.log(data[i]);
+        str += "<tr>";
+        for (var j in data[i]) {
+            str += "<td>" + data[i][j].value + "</td>";
+            //console.log(data[i][j])
+        }
+        str += "</tr>"
+    }
+    //console.log(str);
     $('#answer-table').append(str)
 }
 
