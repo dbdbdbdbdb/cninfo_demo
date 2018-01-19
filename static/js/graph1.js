@@ -5,6 +5,9 @@ var option = {
     title: {
         text: ''
     },
+    animation: false,
+    animationDuration:100,
+    addDataAnimation: false,
     //本系列特定的 tooltip 设定。
     tooltip: {},
     // 数据更新动画的时长。
@@ -35,6 +38,12 @@ var option = {
             // draggable: true,
             //节点标记的大小,可以设置成诸如 10 这样单一的数字，也可以用数组分开表示宽和高，例如 [20, 10] 表示标记宽为20，高为10。
             symbolSize: 45,
+            //关闭旋转效果
+            markLine:{
+                effect:{
+                    loop:false,
+                }
+            },
             // 将指定的节点以及其所有邻接节点高亮。
             focusNodeAdjacency: true,
             // 是否开启鼠标缩放和平移漫游
@@ -135,6 +144,17 @@ $(document).ready(function () {
                     year_arr = Object.keys(data_json);
                     console.log(year_arr[year_arr.length - 1]);
                     // console.log(data_json);
+                    tmpdata=data_json[year_arr[year_arr.length - 1]].data;
+
+                    tmpdata=removeDuplicatedItem(tmpdata);
+                    console.log(tmpdata);
+
+                    tmplink=data_json[year_arr[year_arr.length - 1]].links;
+
+                    console.log(Object.prototype.toString.call(tmplink)) ;
+                    tmplink=removeDuplicatedItem(tmplink);
+                    console.log(tmplink);
+
                     myChart.setOption({
                         series: [{
                             //访问属性是通过.操作符完成的，但这要求属性名必须是一个有效的变量名.
