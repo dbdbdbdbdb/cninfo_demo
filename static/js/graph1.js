@@ -5,6 +5,7 @@ var option = {
     title: {
         text: ''
     },
+    //关掉旋转？
     animation: false,
     animationDuration:100,
     addDataAnimation: false,
