@@ -1,20 +1,32 @@
 /**
  * Created by q8931 on 2017/7/23.
  */
+function removeDuplicatedItem(ar) {
+    var ret = [];
+
+    for (var i = 0, j = ar.length; i < j; i++) {
+        if (ret.indexOf(ar[i]) === -1) {
+            ret.push(ar[i]);
+        }
+    }
+
+    return ret;
+}
+
 var option = {
     title: {
         text: ''
     },
     //关掉旋转(...)？
     animation: false,
-    animationDuration:100,
+    animationDuration:0,
     addDataAnimation: false,
     //本系列特定的 tooltip 设定。
     tooltip: {},
     // 数据更新动画的时长。
-    animationDurationUpdate: 300,
+    animationDurationUpdate: 0,
     // 数据更新动画的缓动效果。
-    animationEasingUpdate: 'quinticInOut',
+    //animationEasingUpdate: 'quinticInOut',
     label: {
         normal: {
             show: true,
@@ -28,6 +40,11 @@ var option = {
         show: false,
         data: ["实体", "文本"]
     },
+    markLine:{
+                effect:{
+                    loop:false,
+                }
+            },
     series: [
 
         {
