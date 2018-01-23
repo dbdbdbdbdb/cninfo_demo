@@ -1,8 +1,9 @@
+
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import json
-
+import re
 import sys
 
 
@@ -37,6 +38,28 @@ def to_triples_list(query_result):
     #query_result = f.read()
     #如果value中包含\n，eval会出错
     query_result = query_result.replace('\n','')
+    #双引号转义
+    result = re.finditer("value\": \"(.+?)\" }", query_result)
+    replacelist = []
+    for m in result:
+        s = query_result[m.start()+9:m.end()-3]
+        result1 = re.finditer("\"", s)
+
+        flag=False
+        new_s = ""
+        lastidx = 0
+        for m1 in result1:
+            new_s = new_s+ s[lastidx: m1.start()]
+            new_s = new_s+'\\"'
+            lastidx = m1.end()
+            flag=True
+        if(flag):
+            new_s = new_s + s[lastidx: m1.end()]
+            replacelist.append([s, new_s])
+    for [oldv, newv] in replacelist:
+        query_result=query_result.replace(oldv, newv)
+
+
     # 找到bindings的起始位置
     begin_offset = query_result.find('"bindings":')
     end_offset=query_result.rfind(']')
@@ -105,6 +128,7 @@ def to_relation_list(query_result):
                 id_set.add('{"id":"' + i['z']['value'] + '","name":"' + event_dict[z_value_splitted_list[3]] +
                            z_value_splitted_list[4] + '","category":1}')
             else:
+
                 id_set.add('{"id":"' + i['z']['value'] + '","name":"' + i['z']['value'] + '","category":1}')
         else:
             id_set.add('{"id":"' + i['z']['value'] + '","name":"' + i['z']['value'] + '","category":1}')
@@ -177,6 +201,7 @@ def triple_can_add2all(triple_dict, years_list, triples_per_year_dict):
 def triples_sort_by_year(triples_list):
     # 1.根据triples_list建立year的set集合
     years_set = set()
+    years_set.add('all')
     for i in triples_list:
         # 宾语的type是uri的话,才进入取日期的流程
         if i['z']['type'] == 'uri':
@@ -276,7 +301,8 @@ def find_nodes(triples_list):
             else:
                 id_set.add('{"id":"' + i['z']['value'] + '","name":"' + i['z']['value'] + '","category":0}')
         else:
-            id_set.add('{"id":"' + i['z']['value'] + '","name":"' + i['z']['value'] + '","category":1}')
+            s1 = i['z']['value'].replace('"','\\"')
+            id_set.add('{"id":"' + s1 + '","name":"' + s1 + '","category":1}')
     # 将set元素变为一个个node的dict
     for i in id_set:
         # 每个元素相当于一个词典
@@ -367,7 +393,8 @@ def pfind_nodes_edges(triples_list):
 
                     id_new_set.add('{"id":"' + i['z']['value'] + '","name":"' + i['z']['value'] + '","category":0}')
             else:
-                id_new_set.add('{"id":"' + i['z']['value'] + '","name":"' + i['z']['value'] + '","category":1}')
+                s1 = i['z']['value'].replace('"','\\"')
+                id_set.add('{"id":"' + s1 + '","name":"' + s1 + '","category":1}')
             edge_new_dict['source'] = edge_dict['value']
             # if y['z']['type']=='uri':
             #     edge_dict['target']=y['z']['value']
@@ -395,7 +422,8 @@ def pfind_nodes_edges(triples_list):
 
                     id_set.add('{"id":"' + i['z']['value'] + '","name":"' + i['z']['value'] + '","category":0}')
             else:
-                id_set.add('{"id":"' + i['z']['value'] + '","name":"' + i['z']['value'] + '","category":1}')
+                s1 = i['z']['value'].replace('"','\\"')
+                id_set.add('{"id":"' + s1 + '","name":"' + s1 + '","category":1}')
 
         edges_list.append(edge_dict)
 
@@ -524,7 +552,8 @@ def plus2graph(answer, data_id):
             else:
                 id_set.add('{"id":"' + i['z']['value'] + '","name":"' + i['z']['value'] + '","category":0}')
         else:
-            id_set.add('{"id":"' + i['z']['value'] + '","name":"' + i['z']['value'] + '","category":1}')
+            s1 = i['z']['value'].replace('"','\\"')
+            id_set.add('{"id":"' + s1 + '","name":"' + s1 + '","category":1}')
 
     # 将set元素变为一个个node的dict
     for i in id_set:
@@ -537,5 +566,3 @@ def plus2graph(answer, data_id):
     plus_dict['links'] = edges_list
     json_plus = json.dumps(plus_dict)
     return json_plus
-
-

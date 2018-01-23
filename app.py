@@ -35,7 +35,6 @@ def home():
         if search_type=='search2':
             str_to_solve = request.form.get('str_to_solve')
             select_object = request.form.get('select')
-            print(str_to_solve, select_object)
             json_list=query.template_search(str_to_solve, select_object)
             # print(json_list)
             return json_list
