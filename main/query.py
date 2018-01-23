@@ -118,7 +118,8 @@ def relation_search(entity1, entity2):
                '\t?x1 ?y1 ?z.\n' + \
                '\t?z ?y2 ?x2.\n}'
     answer = query_result(sparql)
-    answer_list = conv_node_edge.to_relation_list(answer)
-    json_list = json.dumps(answer_list)
-
+    (nodes,links) = conv_node_edge.to_relation_list(answer)
+    data_dict = conv_node_edge.conv2graph_dict(nodes, links)
+    json_list = json.dumps(data_dict)
+    print(json_list)
     return json_list

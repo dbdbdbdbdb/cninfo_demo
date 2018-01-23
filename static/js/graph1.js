@@ -264,6 +264,7 @@ $(document).ready(function () {
                 }
             })
         }
+        /*表格展示
         if (second === 'search3') {
             entity_1 = inputv[0].value;
             entity_2 = inputv[1].value;
@@ -279,6 +280,48 @@ $(document).ready(function () {
                     relation_table(json_list);
                 }
             })
+
+        }
+         */
+        if (second === 'search3') {
+            entity_1 = inputv[0].value;
+            entity_2 = inputv[1].value;
+
+            $.ajax({
+               type: "POST",
+                url: "/",
+                cache: false,
+                data: {'search_type': second, 'entity1': entity_1, 'entity2': entity_2},
+                success: function (json_str) {
+                    // 添加各年份按钮
+                    console.log('success!');
+                    console.log(json_str);
+                    console.log('success');
+                    var data_json = JSON.parse(json_str);
+                    console.log(data_json);
+                    $('#main-parent3').empty();
+                    $('#main-parent3').append('<div id="main3" style="width:1200px;height: 600px;"></div>');
+                    var myChart = echarts.init(document.getElementById('main3'));
+                    myChart.setOption(option);
+                    //hearClick(myChart);
+
+
+                   myChart.setOption({
+                        series: [{
+                            //访问属性是通过.操作符完成的，但这要求属性名必须是一个有效的变量名.
+                            // 如果属性名包含特殊字符，就必须用''括起来.
+                            // 访问这个属性也无法使用.操作符，必须用['xxx']来访问
+                            data: data_json.data,
+                            links: data_json.links
+                        }]
+                    });
+                    console.log('success!');
+
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            });
         }
     });
 
