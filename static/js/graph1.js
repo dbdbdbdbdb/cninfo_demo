@@ -139,8 +139,56 @@ var option = {
 
 
 $(document).ready(function () {
-    console.log("ready!");
 
+    $.ajax({
+        type: "POST",
+            url: "/",
+            data: {'search_type': 'init'},
+            success: function(recommend_list) {
+                $('input.completer').completer({
+                    source: recommend_list,
+                    suggest: true
+                })
+                console.log('recommend ready.');
+            },
+            error: function(error) {
+                console.log(error);
+            }
+    })
+
+    console.log("ready!");
+    //搜索推荐
+    /*
+    $('input.completer').on('keydown', function() {
+    if(event.keyCode==40){
+        console.log('detect change!');
+        self = this;
+        nowdata = this.value;
+        console.log(nowdata);
+        $.ajax({
+            type: "POST",
+            url: "/",
+            data: {'prefix': nowdata, 'search_type': 'recommend'},
+            success: function(recommend_list) {
+                console.log(recommend_list);
+                self.setAttribute("data-source", recommend_list)
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        })
+    }})*/
+/*
+    $('input.completer').on('keydown', function() {
+        if(event.keyCode==40) {
+            console.log('get focus!');
+            console.log(recommend_data);
+            $('input.completer').autocomplete({
+                source: recommend_data
+            })
+            console.log('success.');
+        }
+    })*/
 
     // 监听表单提交
     $('form').on('submit', function () {
@@ -235,6 +283,8 @@ $(document).ready(function () {
     });
 
 });
+
+
 
 function hearClick(myChart) {
     //监听双击事件,进行动态获取数据的处理
