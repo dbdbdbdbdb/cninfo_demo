@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
@@ -565,5 +566,3 @@ def plus2graph(answer, data_id):
     plus_dict['links'] = edges_list
     json_plus = json.dumps(plus_dict)
     return json_plus
-
-
