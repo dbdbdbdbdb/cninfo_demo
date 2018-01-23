@@ -21,9 +21,7 @@ def entity_search(str):
     # with open('search1_result.txt', 'r', encoding='utf-8') as f:
     #     answer = f.read()
     # os.remove(os.path.dirname(os.path.abspath(__file__))+'\\search1_result.txt')
-    #print(answer)
-    json_str = conv_node_edge.conv2pgraph(answer)
-    #print(json_str)
+    json_str = conv_node_edge.conv2graph(answer)
     # with open('search1_result.txt', 'w', encoding='utf-8') as f:
     #     f.write(json_str)
     return json_str
@@ -45,7 +43,7 @@ def query_result(sparql):
     # 因为最后一行是NUT字符,所以切片掉
     answer = (gc.query(sparql))
     #print(answer)
-    
+
     # print(answer)
     with open('search1_result.txt', 'w', encoding='utf-8') as f:
         f.write(answer)
@@ -56,12 +54,6 @@ def plus_search(data_id):
     sparql = 'select ?y ?z\n{\n\t<' + data_id + '> ?y  ?z.\n}'
     answer = query_result(sparql)
     json_plus = conv_node_edge.plus2graph(answer, data_id)
-    return json_plus
-
-def extend_search(data_id):
-    sparql = 'select ?y ?z\n{\n\t<' + data_id + '> ?y  ?z.\n}'
-    answer = query_result(sparql)
-    json_plus = conv_node_edge.extend2graph(data_id)
     return json_plus
 
 # answer = entity_search("南华生物医药股份有限公司")
@@ -90,9 +82,6 @@ def template_search(str_to_solve, select_object):
 
 # print(template_search('公司的证券号是多少？'))
 # template_search('南华生物医药股份有限公司的证券号是多少')
-def getJsonNext():
-    tmp=conv_node_edge.getJsonNext()
-    return tmp
 
 def relation_search(entity1, entity2):
     #entity1和entity2都是公司
@@ -118,8 +107,7 @@ def relation_search(entity1, entity2):
                '\t?x1 ?y1 ?z.\n' + \
                '\t?z ?y2 ?x2.\n}'
     answer = query_result(sparql)
-    (nodes,links) = conv_node_edge.to_relation_list(answer)
-    data_dict = conv_node_edge.conv2graph_dict(nodes, links)
-    json_list = json.dumps(data_dict)
-    print(json_list)
+    answer_list = conv_node_edge.to_relation_list(answer)
+    json_list = json.dumps(answer_list)
+
     return json_list
