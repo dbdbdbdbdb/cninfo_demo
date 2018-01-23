@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4eb1022c-e02d-4425-897f-9fe144d3c5b9" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/finance_demo.iml" afterPath="$PROJECT_DIR$/.idea/finance_demo.iml" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/search1_result.txt" afterPath="$PROJECT_DIR$/search1_result.txt" />
+      <change beforePath="$PROJECT_DIR$/main/conv_node_edge.py" afterPath="$PROJECT_DIR$/main/conv_node_edge.py" />
+      <change beforePath="$PROJECT_DIR$/static/js/graph1.js" afterPath="$PROJECT_DIR$/static/js/graph1.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,7 +18,7 @@
       <file leaf-file-name="conv_table.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main/conv_table.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="864">
+            <state relative-caret-position="24">
               <caret line="36" column="15" lean-forward="false" selection-start-line="36" selection-start-column="15" selection-end-line="36" selection-end-column="15" />
               <folding>
                 <element signature="e#5013#8870#0" expanded="false" />
@@ -31,19 +30,22 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3432">
+            <state relative-caret-position="816">
               <caret line="143" column="4" lean-forward="false" selection-start-line="143" selection-start-column="4" selection-end-line="143" selection-end-column="4" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="graph1.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="graph1.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/static/js/graph1.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="24">
-              <caret line="379" column="16" lean-forward="false" selection-start-line="379" selection-start-column="16" selection-end-line="379" selection-end-column="16" />
-              <folding />
+            <state relative-caret-position="357">
+              <caret line="102" column="14" lean-forward="true" selection-start-line="102" selection-start-column="14" selection-end-line="102" selection-end-column="14" />
+              <folding>
+                <marker date="1516714338612" expanded="true" signature="6232:6259" ph="..." />
+                <marker date="1516714338612" expanded="true" signature="9863:9890" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -51,11 +53,9 @@
       <file leaf-file-name="app.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="600">
-              <caret line="34" column="31" lean-forward="false" selection-start-line="34" selection-start-column="31" selection-end-line="34" selection-end-column="31" />
-              <folding>
-                <element signature="e#47#96#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="504">
+              <caret line="44" column="36" lean-forward="true" selection-start-line="44" selection-start-column="36" selection-end-line="44" selection-end-column="36" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -63,8 +63,8 @@
       <file leaf-file-name="query.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main/query.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="39" column="21" lean-forward="false" selection-start-line="39" selection-start-column="21" selection-end-line="39" selection-end-column="21" />
+            <state relative-caret-position="399">
+              <caret line="119" column="33" lean-forward="true" selection-start-line="119" selection-start-column="33" selection-end-line="119" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -73,18 +73,18 @@
       <file leaf-file-name="GstoreConnector.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main/gstore_api/GstoreConnector.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2208">
+            <state relative-caret-position="24">
               <caret line="93" column="0" lean-forward="false" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="conv_node_edge.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="conv_node_edge.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main/conv_node_edge.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="273" column="17" lean-forward="true" selection-start-line="273" selection-start-column="17" selection-end-line="273" selection-end-column="17" />
+            <state relative-caret-position="-322">
+              <caret line="95" column="103" lean-forward="false" selection-start-line="95" selection-start-column="103" selection-end-line="95" selection-end-column="103" />
               <folding>
                 <element signature="e#48#59#0" expanded="true" />
               </folding>
@@ -104,16 +104,6 @@
       </file>
       <file leaf-file-name="jqpaginator.min.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/js/jqpaginator.min.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="jquery.min.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/js/jquery.min.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -142,6 +132,9 @@
       <find>console</find>
       <find>['x']['value']</find>
       <find>return</find>
+      <find>find</find>
+      <find>to_relation_list</find>
+      <find>conv2graph_dict</find>
     </findStrings>
     <dirStrings>
       <dir>C:\Users\Chen Yuyan\PycharmProjects\finance_demo</dir>
@@ -161,10 +154,10 @@
         <option value="$PROJECT_DIR$/static/js/jquery.listnav.js" />
         <option value="$PROJECT_DIR$/templates/index.html" />
         <option value="$PROJECT_DIR$/main/conv_table.py" />
-        <option value="$PROJECT_DIR$/static/js/graph1.js" />
         <option value="$PROJECT_DIR$/app.py" />
         <option value="$PROJECT_DIR$/main/query.py" />
         <option value="$PROJECT_DIR$/main/conv_node_edge.py" />
+        <option value="$PROJECT_DIR$/static/js/graph1.js" />
       </list>
     </option>
   </component>
@@ -175,8 +168,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="81" />
-    <option name="y" value="59" />
+    <option name="x" value="84" />
+    <option name="y" value="80" />
     <option name="width" value="1624" />
     <option name="height" value="945" />
   </component>
@@ -320,7 +313,21 @@
       <option name="project" value="LOCAL" />
       <updated>1516704343671</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="add:类别整合显示">
+      <created>1516704599289</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1516704599289</updated>
+    </task>
+    <task id="LOCAL-00004" summary="add:关系查询图表展示">
+      <created>1516713460228</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1516713460228</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -328,10 +335,10 @@
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3297062" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297062" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26568267" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26985854" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26985854" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18550107" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -357,23 +364,16 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="fix:show" />
     <MESSAGE value="add:类别整合显示" />
-    <option name="LAST_COMMIT_MESSAGE" value="add:类别整合显示" />
+    <MESSAGE value="add:关系查询图表展示" />
+    <option name="LAST_COMMIT_MESSAGE" value="add:关系查询图表展示" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="2" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/static/js/jqpaginator.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/js/jquery.min.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -394,7 +394,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2869">
           <caret line="151" column="38" lean-forward="false" selection-start-line="151" selection-start-column="38" selection-end-line="151" selection-end-column="38" />
-          <folding />
+          <folding>
+            <marker date="1516714338612" expanded="true" signature="6232:6259" ph="..." />
+            <marker date="1516714338612" expanded="true" signature="9863:9890" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -427,9 +430,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="608">
           <caret line="33" column="21" lean-forward="false" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="21" />
-          <folding>
-            <element signature="e#47#96#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -479,7 +480,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1292">
           <caret line="68" column="26" lean-forward="true" selection-start-line="68" selection-start-column="26" selection-end-line="68" selection-end-column="26" />
-          <folding />
+          <folding>
+            <marker date="1516714338612" expanded="true" signature="6232:6259" ph="..." />
+            <marker date="1516714338612" expanded="true" signature="9863:9890" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -536,7 +540,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2603">
           <caret line="137" column="34" lean-forward="false" selection-start-line="137" selection-start-column="34" selection-end-line="137" selection-end-column="34" />
-          <folding />
+          <folding>
+            <marker date="1516714338612" expanded="true" signature="6232:6259" ph="..." />
+            <marker date="1516714338612" expanded="true" signature="9863:9890" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -593,7 +600,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2603">
           <caret line="137" column="34" lean-forward="true" selection-start-line="137" selection-start-column="34" selection-end-line="137" selection-end-column="34" />
-          <folding />
+          <folding>
+            <marker date="1516714338612" expanded="true" signature="6232:6259" ph="..." />
+            <marker date="1516714338612" expanded="true" signature="9863:9890" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -664,40 +674,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3432">
-          <caret line="143" column="4" lean-forward="false" selection-start-line="143" selection-start-column="4" selection-end-line="143" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/gstore_api/GstoreConnector.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2208">
-          <caret line="93" column="0" lean-forward="false" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/conv_table.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="864">
-          <caret line="36" column="15" lean-forward="false" selection-start-line="36" selection-start-column="15" selection-end-line="36" selection-end-column="15" />
-          <folding>
-            <element signature="e#5013#8870#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/graph1.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="379" column="16" lean-forward="false" selection-start-line="379" selection-start-column="16" selection-end-line="379" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/source/translate_dict.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="24">
@@ -706,30 +682,73 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/main/conv_table.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="24">
+          <caret line="36" column="15" lean-forward="false" selection-start-line="36" selection-start-column="15" selection-end-line="36" selection-end-column="15" />
+          <folding>
+            <element signature="e#5013#8870#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/gstore_api/GstoreConnector.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="24">
+          <caret line="93" column="0" lean-forward="false" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/cninfo_demo-master/venv1/Lib/site-packages/pip/_vendor/distlib/database.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="816">
+          <caret line="143" column="4" lean-forward="false" selection-start-line="143" selection-start-column="4" selection-end-line="143" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="34" column="31" lean-forward="false" selection-start-line="34" selection-start-column="31" selection-end-line="34" selection-end-column="31" />
-          <folding>
-            <element signature="e#47#96#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="504">
+          <caret line="44" column="36" lean-forward="true" selection-start-line="44" selection-start-column="36" selection-end-line="44" selection-end-column="36" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/query.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="39" column="21" lean-forward="false" selection-start-line="39" selection-start-column="21" selection-end-line="39" selection-end-column="21" />
+        <state relative-caret-position="399">
+          <caret line="119" column="33" lean-forward="true" selection-start-line="119" selection-start-column="33" selection-end-line="119" selection-end-column="33" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/conv_node_edge.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="273" column="17" lean-forward="true" selection-start-line="273" selection-start-column="17" selection-end-line="273" selection-end-column="17" />
+        <state relative-caret-position="-322">
+          <caret line="95" column="103" lean-forward="false" selection-start-line="95" selection-start-column="103" selection-end-line="95" selection-end-column="103" />
           <folding>
             <element signature="e#48#59#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/js/graph1.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="102" column="14" lean-forward="true" selection-start-line="102" selection-start-column="14" selection-end-line="102" selection-end-column="14" />
+          <folding>
+            <marker date="1516714338612" expanded="true" signature="6232:6259" ph="..." />
+            <marker date="1516714338612" expanded="true" signature="9863:9890" ph="..." />
           </folding>
         </state>
       </provider>

@@ -93,7 +93,23 @@ var option = {
                         color: "red"
                     }
                 }
-            },],
+            },{
+                name: '文本',
+                itemStyle: {
+                    normal: {
+                        color: "#f0c224"
+                    }
+                }
+            },
+            {
+                name: '文本',
+                itemStyle: {
+                    normal: {
+                        color: "#d341e3"
+                    }
+                }
+            },
+            ],
             // source:边的源节点名称的字符串，也支持使用数字表示源节点的索引。
             // target:边的目标节点名称的字符串，也支持使用数字表示源节点的索引。
             // value:边的数值，可以在力引导布局中用于映射到边的长度。

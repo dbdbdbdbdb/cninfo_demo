@@ -84,44 +84,44 @@ def to_relation_list(query_result):
         if i['x1']['type'] == 'uri':
             x_value_splitted_list = i['x1']['value'].split('/')
             if x_value_splitted_list[3] in name1_list:
-                id_set.add('{"id":"' + i['x1']['value'] + '","name":"' + x_value_splitted_list[5] + '","category":0}')
+                id_set.add('{"id":"' + i['x1']['value'] + '","name":"' + x_value_splitted_list[5] + '","category":4}')
             elif x_value_splitted_list[3] in name2_list:
-                id_set.add('{"id":"' + i['x1']['value'] + '","name":"' + x_value_splitted_list[6] + '","category":0}')
+                id_set.add('{"id":"' + i['x1']['value'] + '","name":"' + x_value_splitted_list[6] + '","category":4}')
             elif x_value_splitted_list[3] in event_list:
                 id_set.add('{"id":"' + i['x1']['value'] + '","name":"' + event_dict[x_value_splitted_list[3]] +
-                           x_value_splitted_list[4] + '","category":0}')
+                           x_value_splitted_list[4] + '","category":4}')
             else:
-                id_set.add('{"id":"' + i['x1']['value'] + '","name":"' + i['x1']['value'] + '","category":0}')
+                id_set.add('{"id":"' + i['x1']['value'] + '","name":"' + i['x1']['value'] + '","category":4}')
         else:
-            id_set.add('{"id":"' + i['x1']['value'] + '","name":"' + i['x1']['value'] + '","category":1}')
+            id_set.add('{"id":"' + i['x1']['value'] + '","name":"' + i['x1']['value'] + '","category":4}')
 
         if i['z']['type'] == 'uri':
             z_value_splitted_list = i['z']['value'].split('/')
             if z_value_splitted_list[3] in name1_list:
-                id_set.add('{"id":"' + i['z']['value'] + '","name":"' + z_value_splitted_list[5] + '","category":0}')
+                id_set.add('{"id":"' + i['z']['value'] + '","name":"' + z_value_splitted_list[5] + '","category":1}')
             elif z_value_splitted_list[3] in name2_list:
-                id_set.add('{"id":"' + i['z']['value'] + '","name":"' + z_value_splitted_list[6] + '","category":0}')
+                id_set.add('{"id":"' + i['z']['value'] + '","name":"' + z_value_splitted_list[6] + '","category":1}')
             elif z_value_splitted_list[3] in event_list:
                 id_set.add('{"id":"' + i['z']['value'] + '","name":"' + event_dict[z_value_splitted_list[3]] +
-                           z_value_splitted_list[4] + '","category":0}')
+                           z_value_splitted_list[4] + '","category":1}')
             else:
-                id_set.add('{"id":"' + i['z']['value'] + '","name":"' + i['z']['value'] + '","category":0}')
+                id_set.add('{"id":"' + i['z']['value'] + '","name":"' + i['z']['value'] + '","category":1}')
         else:
             id_set.add('{"id":"' + i['z']['value'] + '","name":"' + i['z']['value'] + '","category":1}')
 
         if i['x2']['type'] == 'uri':
             x_value_splitted_list = i['x2']['value'].split('/')
             if x_value_splitted_list[3] in name1_list:
-                id_set.add('{"id":"' + i['x2']['value'] + '","name":"' + x_value_splitted_list[5] + '","category":0}')
+                id_set.add('{"id":"' + i['x2']['value'] + '","name":"' + x_value_splitted_list[5] + '","category":3}')
             elif x_value_splitted_list[3] in name2_list:
-                id_set.add('{"id":"' + i['x2']['value'] + '","name":"' + x_value_splitted_list[6] + '","category":0}')
+                id_set.add('{"id":"' + i['x2']['value'] + '","name":"' + x_value_splitted_list[6] + '","category":3}')
             elif x_value_splitted_list[3] in event_list:
                 id_set.add('{"id":"' + i['x2']['value'] + '","name":"' + event_dict[x_value_splitted_list[3]] +
-                           x_value_splitted_list[4] + '","category":0}')
+                           x_value_splitted_list[4] + '","category":3}')
             else:
-                id_set.add('{"id":"' + i['x2']['value'] + '","name":"' + i['x2']['value'] + '","category":0}')
+                id_set.add('{"id":"' + i['x2']['value'] + '","name":"' + i['x2']['value'] + '","category":3}')
         else:
-            id_set.add('{"id":"' + i['x2']['value'] + '","name":"' + i['x2']['value'] + '","category":1}')
+            id_set.add('{"id":"' + i['x2']['value'] + '","name":"' + i['x2']['value'] + '","category":3}')
 
         # 单条边的属性词典
         edge_dict = {}
