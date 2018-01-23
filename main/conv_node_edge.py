@@ -4,7 +4,6 @@
 import json
 
 import sys
-import re
 
 
 
@@ -38,28 +37,6 @@ def to_triples_list(query_result):
     #query_result = f.read()
     #如果value中包含\n，eval会出错
     query_result = query_result.replace('\n','')
-    #双引号转义
-    result = re.finditer("value\": \"(.+?)\" }", query_result)
-    replacelist = []
-    for m in result:
-        s = query_result[m.start()+9:m.end()-3]
-        result1 = re.finditer("\"", s)
-
-        flag=False
-        new_s = ""
-        lastidx = 0
-        for m1 in result1:
-            new_s = new_s+ s[lastidx: m1.start()]
-            new_s = new_s+'\\"'
-            lastidx = m1.end()
-            flag=True
-        if(flag):
-            new_s = new_s + s[lastidx: m1.end()]
-            replacelist.append([s, new_s])
-    for [oldv, newv] in replacelist:
-        query_result=query_result.replace(oldv, newv)
-
-
     # 找到bindings的起始位置
     begin_offset = query_result.find('"bindings":')
     end_offset=query_result.rfind(']')
@@ -93,7 +70,102 @@ def to_relation_list(query_result):
         return
     # 演示操作.链式操作对应列表-字典-字典-键值对的数据层级.
     # print(triples_list[len(triples_list) - 1]['z']['type'])
-    return triples_list
+
+    nodes_list = []
+    # 建立node的set集合,便于用于比较是否存在而去重
+    id_set = set()
+    # 建立存储边的列表
+    edges_list = []
+    # 建立汉化词典的键列表
+    trans_key_list = list(td.trans_dict.keys())
+
+    for i in triples_list:
+        # 对x和y的type进行判断,进而先建立字符串形式的(id,name,category)的节点唯一值set集合
+        if i['x1']['type'] == 'uri':
+            x_value_splitted_list = i['x1']['value'].split('/')
+            if x_value_splitted_list[3] in name1_list:
+                id_set.add('{"id":"' + i['x1']['value'] + '","name":"' + x_value_splitted_list[5] + '","category":4}')
+            elif x_value_splitted_list[3] in name2_list:
+                id_set.add('{"id":"' + i['x1']['value'] + '","name":"' + x_value_splitted_list[6] + '","category":4}')
+            elif x_value_splitted_list[3] in event_list:
+                id_set.add('{"id":"' + i['x1']['value'] + '","name":"' + event_dict[x_value_splitted_list[3]] +
+                           x_value_splitted_list[4] + '","category":4}')
+            else:
+                id_set.add('{"id":"' + i['x1']['value'] + '","name":"' + i['x1']['value'] + '","category":4}')
+        else:
+            id_set.add('{"id":"' + i['x1']['value'] + '","name":"' + i['x1']['value'] + '","category":4}')
+
+        if i['z']['type'] == 'uri':
+            z_value_splitted_list = i['z']['value'].split('/')
+            if z_value_splitted_list[3] in name1_list:
+                id_set.add('{"id":"' + i['z']['value'] + '","name":"' + z_value_splitted_list[5] + '","category":1}')
+            elif z_value_splitted_list[3] in name2_list:
+                id_set.add('{"id":"' + i['z']['value'] + '","name":"' + z_value_splitted_list[6] + '","category":1}')
+            elif z_value_splitted_list[3] in event_list:
+                id_set.add('{"id":"' + i['z']['value'] + '","name":"' + event_dict[z_value_splitted_list[3]] +
+                           z_value_splitted_list[4] + '","category":1}')
+            else:
+                id_set.add('{"id":"' + i['z']['value'] + '","name":"' + i['z']['value'] + '","category":1}')
+        else:
+            id_set.add('{"id":"' + i['z']['value'] + '","name":"' + i['z']['value'] + '","category":1}')
+
+        if i['x2']['type'] == 'uri':
+            x_value_splitted_list = i['x2']['value'].split('/')
+            if x_value_splitted_list[3] in name1_list:
+                id_set.add('{"id":"' + i['x2']['value'] + '","name":"' + x_value_splitted_list[5] + '","category":3}')
+            elif x_value_splitted_list[3] in name2_list:
+                id_set.add('{"id":"' + i['x2']['value'] + '","name":"' + x_value_splitted_list[6] + '","category":3}')
+            elif x_value_splitted_list[3] in event_list:
+                id_set.add('{"id":"' + i['x2']['value'] + '","name":"' + event_dict[x_value_splitted_list[3]] +
+                           x_value_splitted_list[4] + '","category":3}')
+            else:
+                id_set.add('{"id":"' + i['x2']['value'] + '","name":"' + i['x2']['value'] + '","category":3}')
+        else:
+            id_set.add('{"id":"' + i['x2']['value'] + '","name":"' + i['x2']['value'] + '","category":3}')
+
+        # 单条边的属性词典
+        edge_dict = {}
+        # 边的起点
+        edge_dict['source'] = i['x1']['value']
+        # if y['z']['type']=='uri':
+        #     edge_dict['target']=y['z']['value']
+        # 边的终点
+        edge_dict['target'] = i['z']['value']
+        # 边的描述,直接只取谓词描述
+        eng_desc = i['y1']['value']
+        # 判断英文描述是否在key中.
+        if eng_desc in trans_key_list:
+            edge_dict['value'] = td.trans_dict[eng_desc]
+        else:
+            edge_dict['value'] = i['y1']['value'].split('/')[4]
+        # 将单条边的属性字典加入到边的列表
+        edges_list.append(edge_dict)
+
+        # 边的起点
+        edge_dict1={}
+        edge_dict1['source'] = i['z']['value']
+        # if y['z']['type']=='uri':
+        #     edge_dict['target']=y['z']['value']
+        # 边的终点
+        edge_dict1['target'] = i['x2']['value']
+        # 边的描述,直接只取谓词描述
+        eng_desc = i['y2']['value']
+        # 判断英文描述是否在key中.
+        if eng_desc in trans_key_list:
+            edge_dict1['value'] = td.trans_dict[eng_desc]
+        else:
+            edge_dict1['value'] = i['y2']['value'].split('/')[4]
+        # 将单条边的属性字典加入到边的列表
+        edges_list.append(edge_dict1)
+
+    # 将set元素变为一个个node的dict
+    for i in id_set:
+        # 每个元素相当于一个词典
+        node_dict = eval(i)
+        # 将每次循环得到的单个节点加入到节点列表
+        nodes_list.append(node_dict)
+
+    return (nodes_list,edges_list)
 
 # 可以加到所有年份的triples(即无时间属性)
 def triple_can_add2all(triple_dict, years_list, triples_per_year_dict):
@@ -105,7 +177,6 @@ def triple_can_add2all(triple_dict, years_list, triples_per_year_dict):
 def triples_sort_by_year(triples_list):
     # 1.根据triples_list建立year的set集合
     years_set = set()
-    years_set.add('all')
     for i in triples_list:
         # 宾语的type是uri的话,才进入取日期的流程
         if i['z']['type'] == 'uri':
@@ -122,7 +193,6 @@ def triples_sort_by_year(triples_list):
 
     # 将集合改为列表,并进行排序
     years_list = list(years_set)
-    print(years_list)
     years_list.sort()
     # 2.按照年份分成不同的triple组别
     # 建立(年份:三元组列表)的键值对应词典
@@ -206,8 +276,7 @@ def find_nodes(triples_list):
             else:
                 id_set.add('{"id":"' + i['z']['value'] + '","name":"' + i['z']['value'] + '","category":0}')
         else:
-            s1 = i['z']['value'].replace('"','\\"')
-            id_set.add('{"id":"' + s1 + '","name":"' + s1 + '","category":1}')
+            id_set.add('{"id":"' + i['z']['value'] + '","name":"' + i['z']['value'] + '","category":1}')
     # 将set元素变为一个个node的dict
     for i in id_set:
         # 每个元素相当于一个词典
@@ -365,7 +434,9 @@ def conv2graph(answer):
     # with open('aaa.txt', 'r', encoding='utf-8') as f:
     #     answer = f.read()
     triples_list = to_triples_list(answer)
+    #print(triples_list)
     triples_per_year_dict = triples_sort_by_year(triples_list)
+    #print(triples_per_year_dict)
     dls_per_year_dict = {}
     # 分开每年对应的triples中的data和links
     for i in triples_per_year_dict:
