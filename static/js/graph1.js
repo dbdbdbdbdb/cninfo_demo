@@ -93,7 +93,23 @@ var option = {
                         color: "red"
                     }
                 }
-            },],
+            },{
+                name: '文本',
+                itemStyle: {
+                    normal: {
+                        color: "#f0c224"
+                    }
+                }
+            },
+            {
+                name: '文本',
+                itemStyle: {
+                    normal: {
+                        color: "#d341e3"
+                    }
+                }
+            },
+            ],
             // source:边的源节点名称的字符串，也支持使用数字表示源节点的索引。
             // target:边的目标节点名称的字符串，也支持使用数字表示源节点的索引。
             // value:边的数值，可以在力引导布局中用于映射到边的长度。
@@ -157,6 +173,38 @@ $(document).ready(function () {
     })
 
     console.log("ready!");
+    //搜索推荐
+    /*
+    $('input.completer').on('keydown', function() {
+    if(event.keyCode==40){
+        console.log('detect change!');
+        self = this;
+        nowdata = this.value;
+        console.log(nowdata);
+        $.ajax({
+            type: "POST",
+            url: "/",
+            data: {'prefix': nowdata, 'search_type': 'recommend'},
+            success: function(recommend_list) {
+                console.log(recommend_list);
+                self.setAttribute("data-source", recommend_list)
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        })
+    }})*/
+/*
+    $('input.completer').on('keydown', function() {
+        if(event.keyCode==40) {
+            console.log('get focus!');
+            console.log(recommend_data);
+            $('input.completer').autocomplete({
+                source: recommend_data
+            })
+            console.log('success.');
+        }
+    })*/
 
     // 监听表单提交
     $('form').on('submit', function () {
@@ -232,6 +280,7 @@ $(document).ready(function () {
                 }
             })
         }
+        /*表格展示
         if (second === 'search3') {
             entity_1 = inputv[0].value;
             entity_2 = inputv[1].value;
@@ -247,6 +296,48 @@ $(document).ready(function () {
                     relation_table(json_list);
                 }
             })
+
+        }
+         */
+        if (second === 'search3') {
+            entity_1 = inputv[0].value;
+            entity_2 = inputv[1].value;
+
+            $.ajax({
+               type: "POST",
+                url: "/",
+                cache: false,
+                data: {'search_type': second, 'entity1': entity_1, 'entity2': entity_2},
+                success: function (json_str) {
+                    // 添加各年份按钮
+                    console.log('success!');
+                    console.log(json_str);
+                    console.log('success');
+                    var data_json = JSON.parse(json_str);
+                    console.log(data_json);
+                    $('#main-parent3').empty();
+                    $('#main-parent3').append('<div id="main3" style="width:1200px;height: 600px;"></div>');
+                    var myChart = echarts.init(document.getElementById('main3'));
+                    myChart.setOption(option);
+                    //hearClick(myChart);
+
+
+                   myChart.setOption({
+                        series: [{
+                            //访问属性是通过.操作符完成的，但这要求属性名必须是一个有效的变量名.
+                            // 如果属性名包含特殊字符，就必须用''括起来.
+                            // 访问这个属性也无法使用.操作符，必须用['xxx']来访问
+                            data: data_json.data,
+                            links: data_json.links
+                        }]
+                    });
+                    console.log('success!');
+
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            });
         }
     });
 
