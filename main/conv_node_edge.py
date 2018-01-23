@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
 import json
+
 import sys
 
-sys.path.append('source')
-from datetime import datetime
-from source import translate_dict as td
 
+
+sys.path.append('source')
+
+from datetime import datetime
+
+from source import translate_dict as td
 name_list = ['naturalperson', 'organization', 'securities', 'top10circshareholder', 'top10shareholder']
 name1_list = ['naturalperson', 'organization', 'securities']
 name2_list = ['top10circshareholder', 'top10shareholder']
@@ -24,7 +29,7 @@ event_dict = {
     "summary_profit_predict": "盈利预测汇总"
 }
 
-
+global json_next
 #import re
 
 def to_triples_list(query_result):
@@ -185,10 +190,146 @@ def find_nodes(triples_list):
         nodes_list.append(node_dict)
     return nodes_list
 
+def pfind_nodes_edges(triples_list):
+    # 建立存储边的列表
+    edges_list = []
+    edges_new_list = []
+    edge_judge_list=[]
+    flagmore={}
+    # 建立汉化词典的键列表
+    trans_key_list = list(td.trans_dict.keys())
+    # 建立存储节点的列表
+    nodes_list = []
+    nodes_new_list = []
+    # 建立node的set集合,便于用于比较是否存在而去重
+    id_set = set()
+    id_new_set=set()
+
+    for i in triples_list:
+        eng_desc = i['y']['value']
+        # 判断英文描述是否在key中.
+        if eng_desc in trans_key_list:
+            tmp = td.trans_dict[eng_desc]
+        else:
+            tmp = i['y']['value'].split('/')[4]
+        if tmp not in edge_judge_list:
+            edge_judge_list.append(tmp)
+            flagmore[tmp] = False
+        else:
+            flagmore[tmp]=True
+    for i in triples_list:
+        # 单条边的属性词典
+        edge_dict = {}
+        edge_new_dict={}
+        # 对x和y的type进行判断,进而先建立字符串形式的(id,name,category)的节点唯一值set集合
+        if i['x']['type'] == 'uri':
+            x_value_splitted_list = i['x']['value'].split('/')
+            if x_value_splitted_list[3] in name1_list:
+                id_set.add('{"id":"' + i['x']['value'] + '","name":"' + x_value_splitted_list[5] + '","category":0}')
+            elif x_value_splitted_list[3] in name2_list:
+                id_set.add('{"id":"' + i['x']['value'] + '","name":"' + x_value_splitted_list[6] + '","category":0}')
+            elif x_value_splitted_list[3] in event_list:
+                id_set.add('{"id":"' + i['x']['value'] + '","name":"' + event_dict[x_value_splitted_list[3]] +
+                           x_value_splitted_list[4] + '","category":0}')
+            else:
+                id_set.add('{"id":"' + i['x']['value'] + '","name":"' + i['x']['value'] + '","category":0}')
+
+        # 边的起点
+        edge_dict['source'] = i['x']['value']
+        # if y['z']['type']=='uri':
+        #     edge_dict['target']=y['z']['value']
+        # 边的终点
+        edge_dict['target'] = i['z']['value']
+        # 边的描述,直接只取谓词描述
+        eng_desc = i['y']['value']
+        # 判断英文描述是否在key中.
+        if eng_desc in trans_key_list:
+            edge_dict['value'] = td.trans_dict[eng_desc]
+        else:
+            edge_dict['value'] = i['y']['value'].split('/')[4]
+
+        if(flagmore[edge_dict['value']])==True:
+            edge_dict['target'] = edge_dict['value']
+            id_set.add('{"id":"' +  edge_dict['value'] + '","name":"' + edge_dict['value'] + '","category":2}')
+            id_new_set.add('{"id":"' + edge_dict['value'] + '","name":"' + edge_dict['value'] + '","category":2}')
+            #为了类别具体展开，构造数据
+            if i['z']['type'] == 'uri':
+
+                z_value_splitted_list = i['z']['value'].split('/')
+                if z_value_splitted_list[3] in name1_list:
+
+                    id_new_set.add(
+                        '{"id":"' + i['z']['value'] + '","name":"' + z_value_splitted_list[5] + '","category":0}')
+                elif z_value_splitted_list[3] in name2_list:
+
+                    id_new_set.add(
+                        '{"id":"' + i['z']['value'] + '","name":"' + z_value_splitted_list[6] + '","category":0}')
+                elif z_value_splitted_list[3] in event_list:
+
+                    id_new_set.add('{"id":"' + i['z']['value'] + '","name":"' + event_dict[z_value_splitted_list[3]] +
+                               z_value_splitted_list[4] + '","category":0}')
+                else:
+
+                    id_new_set.add('{"id":"' + i['z']['value'] + '","name":"' + i['z']['value'] + '","category":0}')
+            else:
+                id_new_set.add('{"id":"' + i['z']['value'] + '","name":"' + i['z']['value'] + '","category":1}')
+            edge_new_dict['source'] = edge_dict['value']
+            # if y['z']['type']=='uri':
+            #     edge_dict['target']=y['z']['value']
+            # 边的终点
+            edge_new_dict['target'] = i['z']['value']
+            edge_new_dict['value']=edge_dict['value']
+            edges_new_list.append(edge_new_dict)
+        else:
+            if i['z']['type'] == 'uri':
+
+                z_value_splitted_list = i['z']['value'].split('/')
+                if z_value_splitted_list[3] in name1_list:
+
+                    id_set.add(
+                        '{"id":"' + i['z']['value'] + '","name":"' + z_value_splitted_list[5] + '","category":0}')
+                elif z_value_splitted_list[3] in name2_list:
+
+                    id_set.add(
+                        '{"id":"' + i['z']['value'] + '","name":"' + z_value_splitted_list[6] + '","category":0}')
+                elif z_value_splitted_list[3] in event_list:
+
+                    id_set.add('{"id":"' + i['z']['value'] + '","name":"' + event_dict[z_value_splitted_list[3]] +
+                               z_value_splitted_list[4] + '","category":0}')
+                else:
+
+                    id_set.add('{"id":"' + i['z']['value'] + '","name":"' + i['z']['value'] + '","category":0}')
+            else:
+                id_set.add('{"id":"' + i['z']['value'] + '","name":"' + i['z']['value'] + '","category":1}')
+
+        edges_list.append(edge_dict)
+
+    for i in id_set:
+        # 每个元素相当于一个词典
+        node_dict = eval(i)
+        # 将每次循环得到的单个节点加入到节点列表
+        nodes_list.append(node_dict)
+        # 将set元素变为一个个node的dict
+    for i in id_new_set:
+        # 每个元素相当于一个词典
+        node_new_dict = eval(i)
+        # 将每次循环得到的单个节点加入到节点列表
+        nodes_new_list.append(node_new_dict)
+    extend_dict = {}
+    extend_dict['data'] = nodes_new_list
+    extend_dict['links'] = edges_new_list
+    #json_extend = json.dumps(extend_dict)
+
+    return (nodes_list,edges_list,extend_dict)
+
+
+
 def conv2graph_dict(nodes_list, edges_list):
     dl_per_year_dict = {}
     dl_per_year_dict['data'] = nodes_list
     dl_per_year_dict['links'] = edges_list
+
+
     return dl_per_year_dict
     # json_str = json.dumps(dl_dict)
     # return json_str
@@ -211,10 +352,34 @@ def conv2graph(answer):
     json_str = json.dumps(dls_per_year_dict)
     return json_str
 
+def conv2pgraph(answer):
+    # with open('aaa.txt', 'r', encoding='utf-8') as f:
+    #     answer = f.read()
+    triples_list = to_triples_list(answer)
+    #print(triples_list)
+    triples_per_year_dict = triples_sort_by_year(triples_list)
+    #print(triples_per_year_dict)
+    dls_per_year_dict = {}
+    # 分开每年对应的triples中的data和links
+    for i in triples_per_year_dict:
+        #nodes_list = find_nodes(triples_per_year_dict[i])
+        global json_next
+        (nodes_list,edges_list,json_next) = pfind_nodes_edges(triples_per_year_dict[i])
+        json_next=json.dumps(json_next)
+        dl_per_year_dict = conv2graph_dict(nodes_list, edges_list)
+        dls_per_year_dict[i] = dl_per_year_dict
+    json_str = json.dumps(dls_per_year_dict)
+    return json_str
+def getJsonNext():
+    global json_next
+    return json_next
+
 def plus2graph(answer, data_id):
     triples_list = to_triples_list(answer)
     edges_list = []
     trans_key_list = list(td.trans_dict.keys())
+    if triples_list is None:
+        return
     for i in triples_list:
         # 单条边的属性词典
         edge_dict = {}
@@ -277,3 +442,5 @@ def plus2graph(answer, data_id):
     plus_dict['links'] = edges_list
     json_plus = json.dumps(plus_dict)
     return json_plus
+
+

@@ -22,7 +22,7 @@ def entity_search(str):
     #     answer = f.read()
     # os.remove(os.path.dirname(os.path.abspath(__file__))+'\\search1_result.txt')
     #print(answer)
-    json_str = conv_node_edge.conv2graph(answer)
+    json_str = conv_node_edge.conv2pgraph(answer)
     #print(json_str)
     # with open('search1_result.txt', 'w', encoding='utf-8') as f:
     #     f.write(json_str)
@@ -58,6 +58,12 @@ def plus_search(data_id):
     json_plus = conv_node_edge.plus2graph(answer, data_id)
     return json_plus
 
+def extend_search(data_id):
+    sparql = 'select ?y ?z\n{\n\t<' + data_id + '> ?y  ?z.\n}'
+    answer = query_result(sparql)
+    json_plus = conv_node_edge.extend2graph(data_id)
+    return json_plus
+
 # answer = entity_search("南华生物医药股份有限公司")
 # with open('results_end.txt', 'w', encoding='utf-8') as f:
 #     f.write(answer)
@@ -84,6 +90,9 @@ def template_search(str_to_solve, select_object):
 
 # print(template_search('公司的证券号是多少？'))
 # template_search('南华生物医药股份有限公司的证券号是多少')
+def getJsonNext():
+    tmp=conv_node_edge.getJsonNext()
+    return tmp
 
 def relation_search(entity1, entity2):
     #entity1和entity2都是公司

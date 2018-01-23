@@ -2,6 +2,7 @@
  * Created by q8931 on 2017/7/23.
  */
 function removeDuplicatedItem(ar) {
+    console.log(ar)
     var ret = [];
 
     for (var i = 0, j = ar.length; i < j; i++) {
@@ -9,7 +10,7 @@ function removeDuplicatedItem(ar) {
             ret.push(ar[i]);
         }
     }
-
+    console.log(ret)
     return ret;
 }
 
@@ -84,7 +85,15 @@ var option = {
                         color: "#4592FF"
                     }
                 }
-            }],
+            },{
+                // 类目名称，用于和 legend 对应以及格式化 tooltip 的内容。
+                name: '类别',
+                itemStyle: {
+                    normal: {
+                        color: "red"
+                    }
+                }
+            },],
             // source:边的源节点名称的字符串，也支持使用数字表示源节点的索引。
             // target:边的目标节点名称的字符串，也支持使用数字表示源节点的索引。
             // value:边的数值，可以在力引导布局中用于映射到边的长度。
@@ -178,8 +187,8 @@ $(document).ready(function () {
                             //访问属性是通过.操作符完成的，但这要求属性名必须是一个有效的变量名.
                             // 如果属性名包含特殊字符，就必须用''括起来.
                             // 访问这个属性也无法使用.操作符，必须用['xxx']来访问
-                            data: data_json[year_arr[year_arr.length - 1]].data,
-                            links: data_json[year_arr[year_arr.length - 1]].links
+                            data: data_json[year_arr[year_arr.length - year_arr.length]].data,
+                            links: data_json[year_arr[year_arr.length - year_arr.length]].links
                         }]
                     });
                     console.log('success!');
@@ -266,6 +275,63 @@ function hearClick(myChart) {
                 type: "POST",
                 url: "/",
                 data: {'str_to_solve': data.id, 'search_type': 'plus'},
+                success: function (json_str) {
+                    console.log(data.id, 'success');
+                    var data_json = JSON.parse(json_str);
+                    // 成功接收到对象
+                    // console.log(data_json);
+                    //判断data和links是不是数组
+                    // console.log(Array.isArray(data_json.data))
+                    nodesOption = mergeArray(nodesOption, data_json.data);
+                    linksOption = linksOption.concat(data_json.links);
+                    myChart.setOption({
+                        series: [{
+                            data: nodesOption,
+                            links: linksOption
+                        }]
+                    })
+                }
+            })
+        }
+    });
+    //监听单击事件,进行动态获取数据的处理
+    myChart.on('click', function (param) {
+        //获取已生成图形的option
+        var option = myChart.getOption();
+        //获得所有节点数组
+        var nodesOption = option.series[0].data;
+        //获得所有连接的数组
+        var linksOption = option.series[0].links;
+        var data = param.data;
+        // 数组第一个值不是根节点,所以不采用了
+        // var first=  nodesOption[0].id;
+        console.log(data.id);
+        // console.log(nodesOption);
+        // console.log(linksOption);
+        function mergeArray(arr1, arr2) {
+            var arr3 = [];
+            for (var i in arr1) {
+                var flag = false;
+                for (var j in arr2) {
+                    if (arr2[j].id === arr1[i].id) {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (!flag) arr3.push(arr1[i])
+            }
+            arr3 = arr3.concat(arr2);
+            return arr3;
+        }
+
+        //判断是否为边或者字面值节点
+        if (typeof data.id === 'undefined' || data.category === 1 || data.category==0) {
+            //如果id等于undefined或者是文本值或者是uri值,则不作交互处理
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "/",
+                data: {'str_to_solve': data.id, 'search_type': 'extend'},
                 success: function (json_str) {
                     console.log(data.id, 'success');
                     var data_json = JSON.parse(json_str);

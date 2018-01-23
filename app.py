@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, render_template, request
 import sys
-
 sys.path.append('main')
 from main import query
 
@@ -23,6 +22,10 @@ def home():
         if search_type == 'plus':
             json_plus = query.plus_search(str_to_solve)
             return json_plus
+        if search_type == 'extend':
+
+            json_extend = query.getJsonNext()
+            return json_extend
         if search_type=='search2':
             print(str_to_solve, select_object)
             json_list=query.template_search(str_to_solve, select_object)
