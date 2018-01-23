@@ -37,6 +37,28 @@ def to_triples_list(query_result):
     #query_result = f.read()
     #如果value中包含\n，eval会出错
     query_result = query_result.replace('\n','')
+    #双引号转义
+    result = re.finditer("value\": \"(.+?)\" }", query_result)
+    replacelist = []
+    for m in result:
+        s = query_result[m.start()+9:m.end()-3]
+        result1 = re.finditer("\"", s)
+
+        flag=False
+        new_s = ""
+        lastidx = 0
+        for m1 in result1:
+            new_s = new_s+ s[lastidx: m1.start()]
+            new_s = new_s+'\\"'
+            lastidx = m1.end()
+            flag=True
+        if(flag):
+            new_s = new_s + s[lastidx: m1.end()]
+            replacelist.append([s, new_s])
+    for [oldv, newv] in replacelist:
+        query_result=query_result.replace(oldv, newv)
+
+
     # 找到bindings的起始位置
     begin_offset = query_result.find('"bindings":')
     end_offset=query_result.rfind(']')
@@ -276,7 +298,8 @@ def find_nodes(triples_list):
             else:
                 id_set.add('{"id":"' + i['z']['value'] + '","name":"' + i['z']['value'] + '","category":0}')
         else:
-            id_set.add('{"id":"' + i['z']['value'] + '","name":"' + i['z']['value'] + '","category":1}')
+            s1 = i['z']['value'].replace('"','\\"')
+            id_set.add('{"id":"' + s1 + '","name":"' + s1 + '","category":1}')
     # 将set元素变为一个个node的dict
     for i in id_set:
         # 每个元素相当于一个词典

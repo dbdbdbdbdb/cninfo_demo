@@ -121,5 +121,4 @@ def relation_search(entity1, entity2):
     (nodes,links) = conv_node_edge.to_relation_list(answer)
     data_dict = conv_node_edge.conv2graph_dict(nodes, links)
     json_list = json.dumps(data_dict)
-    print(json_list)
     return json_list
