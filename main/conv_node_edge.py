@@ -30,7 +30,7 @@ event_dict = {
     "summary_profit_predict": "盈利预测汇总"
 }
 
-global json_next
+json_next={}
 #import re
 
 def to_triples_list(query_result):
@@ -193,8 +193,8 @@ def to_relation_list(query_result):
 
 # 可以加到所有年份的triples(即无时间属性)
 def triple_can_add2all(triple_dict, years_list, triples_per_year_dict):
-    for i in years_list:
-        triples_per_year_dict[i].append(triple_dict)
+    #for i in years_list:
+    triples_per_year_dict['all'].append(triple_dict)
     return
 
 
@@ -241,6 +241,7 @@ def triples_sort_by_year(triples_list):
                 triple_can_add2all(i, years_list, triples_per_year_dict)
         else:
             triple_can_add2all(i, years_list, triples_per_year_dict)
+
     return triples_per_year_dict
 
 
@@ -325,7 +326,8 @@ def pfind_nodes_edges(triples_list):
     # 建立node的set集合,便于用于比较是否存在而去重
     id_set = set()
     id_new_set=set()
-
+    edge_new_dict = {}
+    nodes_new_dict={}
     for i in triples_list:
         eng_desc = i['y']['value']
         # 判断英文描述是否在key中.
@@ -341,7 +343,7 @@ def pfind_nodes_edges(triples_list):
     for i in triples_list:
         # 单条边的属性词典
         edge_dict = {}
-        edge_new_dict={}
+        #edge_new_dict={}
         # 对x和y的type进行判断,进而先建立字符串形式的(id,name,category)的节点唯一值set集合
         if i['x']['type'] == 'uri':
             x_value_splitted_list = i['x']['value'].split('/')
@@ -373,6 +375,15 @@ def pfind_nodes_edges(triples_list):
             edge_dict['target'] = edge_dict['value']
             id_set.add('{"id":"' +  edge_dict['value'] + '","name":"' + edge_dict['value'] + '","category":2}')
             id_new_set.add('{"id":"' + edge_dict['value'] + '","name":"' + edge_dict['value'] + '","category":2}')
+            tmpitem={}
+            tmpitem["id"]=edge_dict['value']
+            tmpitem["name"]= edge_dict['value']
+            tmpitem["category"]=2
+            if edge_dict['value'] in nodes_new_dict.keys():
+                if tmpitem not in nodes_new_dict[edge_dict['value']]:
+                    nodes_new_dict[edge_dict['value']].append(tmpitem)
+            else:
+                nodes_new_dict[edge_dict['value']]=[tmpitem]
             #为了类别具体展开，构造数据
             if i['z']['type'] == 'uri':
 
@@ -381,27 +392,56 @@ def pfind_nodes_edges(triples_list):
 
                     id_new_set.add(
                         '{"id":"' + i['z']['value'] + '","name":"' + z_value_splitted_list[5] + '","category":0}')
+                    tmpitem["id"]=i['z']['value']
+                    tmpitem["name"]=z_value_splitted_list[5]
+                    tmpitem["category"]=0
                 elif z_value_splitted_list[3] in name2_list:
 
                     id_new_set.add(
                         '{"id":"' + i['z']['value'] + '","name":"' + z_value_splitted_list[6] + '","category":0}')
+                    tmpitem["id"]=i['z']['value']
+                    tmpitem["name"]=z_value_splitted_list[6]
+                    tmpitem["category"]=0
                 elif z_value_splitted_list[3] in event_list:
 
                     id_new_set.add('{"id":"' + i['z']['value'] + '","name":"' + event_dict[z_value_splitted_list[3]] +
                                z_value_splitted_list[4] + '","category":0}')
+                    tmpitem["id"]=i['z']['value']
+                    tmpitem["name"]=event_dict[z_value_splitted_list[3]]+z_value_splitted_list[4]
+                    tmpitem["category"]=0
                 else:
 
                     id_new_set.add('{"id":"' + i['z']['value'] + '","name":"' + i['z']['value'] + '","category":0}')
+                    tmpitem["id"] = i['z']['value']
+                    tmpitem["name"] =  i['z']['value']
+                    tmpitem["category"] = 0
+                    #tmpitem='{"id":"' + i['z']['value'] + '","name":"' + i['z']['value'] + '","category":0}'
             else:
                 s1 = i['z']['value'].replace('"','\\"')
                 id_set.add('{"id":"' + s1 + '","name":"' + s1 + '","category":1}')
-            edge_new_dict['source'] = edge_dict['value']
+            t_edge_new_dict={}
+            t_edge_new_dict['source'] = edge_dict['value']
             # if y['z']['type']=='uri':
             #     edge_dict['target']=y['z']['value']
             # 边的终点
-            edge_new_dict['target'] = i['z']['value']
-            edge_new_dict['value']=edge_dict['value']
-            edges_new_list.append(edge_new_dict)
+            t_edge_new_dict['target'] = i['z']['value']
+            t_edge_new_dict['value']=edge_dict['value']
+            # print(edge_new_dict)
+            #print (edge_new_dict.keys())
+            if edge_dict['value'] in edge_new_dict.keys():
+                edge_new_dict[edge_dict['value']].append(t_edge_new_dict)
+            else:
+                edge_new_dict[edge_dict['value']]=[t_edge_new_dict]
+
+
+            if edge_dict['value'] in nodes_new_dict.keys():
+                if tmpitem not in nodes_new_dict[edge_dict['value']]:
+                    nodes_new_dict[edge_dict['value']].append(tmpitem)
+            else:
+                nodes_new_dict[edge_dict['value']]=[tmpitem]
+            #print(edge_new_dict[edge_dict['value']])
+            #print("B")
+            #edges_new_list.append(edge_new_dict)
         else:
             if i['z']['type'] == 'uri':
 
@@ -438,9 +478,13 @@ def pfind_nodes_edges(triples_list):
         node_new_dict = eval(i)
         # 将每次循环得到的单个节点加入到节点列表
         nodes_new_list.append(node_new_dict)
+
+
+
+    #edges_new_list=list(edge_new_dict)
     extend_dict = {}
-    extend_dict['data'] = nodes_new_list
-    extend_dict['links'] = edges_new_list
+    extend_dict['data'] = nodes_new_dict
+    extend_dict['links'] = edge_new_dict
     #json_extend = json.dumps(extend_dict)
 
     return (nodes_list,edges_list,extend_dict)
@@ -486,16 +530,20 @@ def conv2pgraph(answer):
     # 分开每年对应的triples中的data和links
     for i in triples_per_year_dict:
         #nodes_list = find_nodes(triples_per_year_dict[i])
-        global json_next
-        (nodes_list,edges_list,json_next) = pfind_nodes_edges(triples_per_year_dict[i])
-        json_next=json.dumps(json_next)
+
+        (nodes_list,edges_list,json_nextthe) = pfind_nodes_edges(triples_per_year_dict[i])
+        json_next[i]=json_nextthe
+        # print (json_next)
         dl_per_year_dict = conv2graph_dict(nodes_list, edges_list)
         dls_per_year_dict[i] = dl_per_year_dict
     json_str = json.dumps(dls_per_year_dict)
     return json_str
+
 def getJsonNext():
     global json_next
-    return json_next
+    json_next_ans=json.dumps(json_next)
+    #print(json_next_ans)
+    return json_next_ans
 
 def plus2graph(answer, data_id):
     triples_list = to_triples_list(answer)

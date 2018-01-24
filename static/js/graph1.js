@@ -2,6 +2,7 @@
 /**
  * Created by q8931 on 2017/7/23.
  */
+var chooseyear=-1;
 function removeDuplicatedItem(ar) {
     console.log(ar)
     var ret = [];
@@ -446,11 +447,23 @@ function hearClick(myChart) {
                     console.log(data.id, 'success');
                     var data_json = JSON.parse(json_str);
                     // 成功接收到对象
-                    // console.log(data_json);
+                    //console.log(data_json);
+                    //console.log(data_json['2017']);
                     //判断data和links是不是数组
                     // console.log(Array.isArray(data_json.data))
-                    nodesOption = mergeArray(nodesOption, data_json.data);
-                    linksOption = linksOption.concat(data_json.links);
+                    console.log(chooseyear);
+                    if(chooseyear!=-1){
+                        console.log(data_json[chooseyear]);
+                        //tmp_key=Object.keys(data_json[chooseyear]);
+                        //print(tmp_key)
+                        nodesOption = mergeArray(nodesOption, data_json[chooseyear].data[data.id]);
+                        linksOption = linksOption.concat(data_json[chooseyear].links[data.id]);
+
+                    }
+                    else {
+                        nodesOption = mergeArray(nodesOption, data_json[year_arr[year_arr.length - year_arr.length]][data.id].data[data.id]);
+                        linksOption = linksOption.concat(data_json[year_arr[year_arr.length - year_arr.length]][data.id].links[data.id]);
+                    }
                     myChart.setOption({
                         series: [{
                             data: nodesOption,
@@ -511,6 +524,8 @@ function addYearButton(arr, data_json, myChart) {
     $("#year-div").find(".btn-group button").each(function () {
         $(this).bind("click", function () {
             var i = this.name;
+
+            chooseyear=i;
             console.log(i);
             myChart.setOption({
                 series: [{
