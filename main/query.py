@@ -31,9 +31,9 @@ def entity_search(str):
 
 
 def query_result(sparql):
-    gc = GstoreConnector('172.31.222.74', 3306)
+    gc = GstoreConnector('127.0.0.1', 3305)
     # 如果未提前加载数据库,则取消下行代码注释
-    gc.load('cninfo_web')
+    gc.load('cninfo')
 
     # # sparql = '''select ?x ?y ?z
     # # {

@@ -1,6 +1,5 @@
-import pygtrie
 import os
-
+'''
 def gettrie():
     path=os.path.dirname(os.path.realpath(__file__))
     forg = open(path+'/../ORGNAME.txt', encoding='utf-8')
@@ -26,7 +25,7 @@ def gettrie():
         prefix = '/'.join(namelist)
         trie[prefix]=name
     return trie
-
+'''
 def getname():
     path=os.path.dirname(os.path.realpath(__file__))
     forg = open(path+'/../ORGNAME.txt', encoding='utf-8')

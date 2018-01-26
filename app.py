@@ -9,7 +9,6 @@ from main import query
 from main import searchtool
 
 app = Flask(__name__, static_folder='static', static_url_path='/static')
-trie = searchtool.gettrie()
 #names = searchtool.getname()
 
 # routes
@@ -43,12 +42,6 @@ def home():
             entity_2 = request.form.get('entity2')
             json_list=query.relation_search(entity_1, entity_2)
             return json_list
-        if search_type=='recommend':
-            prefix = request.form.get('prefix')
-            prelist = list(prefix)
-            recommend_list = trie.values(prefix='/'.join(prelist))
-            #recommend_list = names
-            return json.dumps(recommend_list, ensure_ascii=False)
         if search_type=='init':
             names = searchtool.getorgname();
             return json.dumps(names, ensure_ascii=False)
@@ -57,6 +50,6 @@ def home():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False,host='0.0.0.0')
 
 
