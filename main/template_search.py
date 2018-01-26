@@ -5,10 +5,6 @@ Created on 2017年7月26日
 '''
 
 
-
-
-
-
 sparql=''
 # 股本变动
 # 公司的股本变动情况？
@@ -114,5 +110,22 @@ def sparqlquery5(value1):
     sparqlquery.append('\n}')
     return (''.join(sparqlquery))
 
+# 公司的法人代表是谁？
+# select ?z
+#     where
+#     {
+#         ?orgID <http://cn.info/vocab/organization_ORGNAME> sparqlquery1.
+#         ?orgID <http://cn.info/vocab/organization_CORPREPRESENTATIVE> ?presentative_name.
+#     }
+def sparqlquery6(value1):
+    sparqlquery = []
+    sparqlquery.append('select distinct ?z')
+    sparqlquery.append('\n where')
+    sparqlquery.append('\n{?orgID <http://cn.info/vocab/organization_ORGNAME> "')
+    sparqlquery.append(str(value1))
+    sparqlquery.append('".\n?orgID  <http://cn.info/vocab/organization_CORPREPRESENTATIVE> ?z.')
+    sparqlquery.append('\n}')
+    return (''.join(sparqlquery))
 
-# print(sparqlquery5('公司的管理人员是谁？'))
+
+

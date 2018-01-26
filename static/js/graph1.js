@@ -175,39 +175,6 @@ $(document).ready(function () {
     })
 
     console.log("ready!");
-    //搜索推荐
-    /*
-    $('input.completer').on('keydown', function() {
-    if(event.keyCode==40){
-        console.log('detect change!');
-        self = this;
-        nowdata = this.value;
-        console.log(nowdata);
-        $.ajax({
-            type: "POST",
-            url: "/",
-            data: {'prefix': nowdata, 'search_type': 'recommend'},
-            success: function(recommend_list) {
-                console.log(recommend_list);
-                self.setAttribute("data-source", recommend_list)
-            },
-            error: function(error) {
-                console.log(error);
-            }
-        })
-    }})*/
-/*
-    $('input.completer').on('keydown', function() {
-        if(event.keyCode==40) {
-            console.log('get focus!');
-            console.log(recommend_data);
-            $('input.completer').autocomplete({
-                source: recommend_data
-            })
-            console.log('success.');
-        }
-    })*/
-
     // 监听表单提交
     $('form').on('submit', function () {
 
@@ -221,6 +188,9 @@ $(document).ready(function () {
         third = $('#' + form_id + ' select').val();
         console.log(first, second, third);
         if (second === 'search1') {
+            $('#year-info').empty();
+        $('#year-info').append('<p stype="text-align: center;"></br>Please wait a moment...</p>');
+            $('#main1').empty();
             $.ajax({
                 type: "POST",
                 url: "/",
@@ -230,6 +200,7 @@ $(document).ready(function () {
                     console.log('success!');
                     $('#main-parent1').empty();
                     $('#main-parent1').append('<div id="main1" style="width:1200px;height: 600px;"></div>');
+
                     var myChart = echarts.init(document.getElementById('main1'));
                     myChart.setOption(option);
                     hearClick(myChart);
@@ -267,6 +238,7 @@ $(document).ready(function () {
             });
         }
         if (second === 'search2') {
+            $('#main2').empty();
             $.ajax({
                 type: "POST",
                 url: "/",
@@ -274,11 +246,18 @@ $(document).ready(function () {
                 data: {'str_to_solve': first, 'search_type': second, 'select': third},
                 success: function (json_str) {
                     console.log('success');
-                    console.log(typeof json_str);
-                    // console.log(json_str)
+                    //console.log(typeof json_str);
+                    //console.log(json_str)
                     json_list = JSON.parse(json_str);
-                    console.log(Array.isArray(json_list));
-                    crt_table(json_list);
+                    if(json_list.length>0){
+                        console.log("not empty");
+                        console.log(Array.isArray(json_list));
+                        crt_table(json_list);
+                    }
+                    else{
+                        console.log("empty");
+                        $('#main2').append('<br/>无查询结果');
+                    }
                 }
             })
         }
@@ -302,6 +281,7 @@ $(document).ready(function () {
         }
          */
         if (second === 'search3') {
+            $('#main3').empty();
             entity_1 = inputv[0].value;
             entity_2 = inputv[1].value;
 
@@ -311,28 +291,33 @@ $(document).ready(function () {
                 cache: false,
                 data: {'search_type': second, 'entity1': entity_1, 'entity2': entity_2},
                 success: function (json_str) {
-                    // 添加各年份按钮
                     console.log('success!');
                     console.log(json_str);
-                    console.log('success');
                     var data_json = JSON.parse(json_str);
                     console.log(data_json);
-                    $('#main-parent3').empty();
-                    $('#main-parent3').append('<div id="main3" style="width:1200px;height: 600px;"></div>');
-                    var myChart = echarts.init(document.getElementById('main3'));
-                    myChart.setOption(option);
-                    //hearClick(myChart);
-
-
-                   myChart.setOption({
-                        series: [{
-                            //访问属性是通过.操作符完成的，但这要求属性名必须是一个有效的变量名.
-                            // 如果属性名包含特殊字符，就必须用''括起来.
-                            // 访问这个属性也无法使用.操作符，必须用['xxx']来访问
-                            data: data_json.data,
-                            links: data_json.links
-                        }]
-                    });
+                    console.log(data_json.data.length);
+                    console.log(data_json.links.length);
+                    if(data_json.data.length>0 && data_json.links.length>0) {
+                        console.log("not empty");
+                        $('#main-parent3').empty();
+                        $('#main-parent3').append('<div id="main3" style="width:1200px;height: 600px;"></div>');
+                        var myChart = echarts.init(document.getElementById('main3'));
+                        myChart.setOption(option);
+                        //hearClick(myChart);
+                        myChart.setOption({
+                            series: [{
+                                //访问属性是通过.操作符完成的，但这要求属性名必须是一个有效的变量名.
+                                // 如果属性名包含特殊字符，就必须用''括起来.
+                                // 访问这个属性也无法使用.操作符，必须用['xxx']来访问
+                                data: data_json.data,
+                                links: data_json.links
+                            }]
+                        });
+                    }
+                    else {
+                        console.log("empty");
+                        $('#main3').append('<br/>无查询结果');
+                    }
                     console.log('success!');
 
                 },
@@ -453,6 +438,8 @@ function hearClick(myChart) {
                     // console.log(Array.isArray(data_json.data))
                     console.log(chooseyear);
                     if(chooseyear!=-1){
+
+
                         console.log(data_json[chooseyear]);
                         //tmp_key=Object.keys(data_json[chooseyear]);
                         //print(tmp_key)
@@ -461,6 +448,7 @@ function hearClick(myChart) {
 
                     }
                     else {
+
                         nodesOption = mergeArray(nodesOption, data_json[year_arr[year_arr.length - year_arr.length]][data.id].data[data.id]);
                         linksOption = linksOption.concat(data_json[year_arr[year_arr.length - year_arr.length]][data.id].links[data.id]);
                     }
@@ -490,7 +478,7 @@ function crt_table(json_list) {
         }
         str += "</tr>"
     }
-    console.log(str);
+    //console.log(str);
     $('#answer-table').append(str)
 }
 
@@ -517,6 +505,9 @@ function addYearButton(arr, data_json, myChart) {
     $("div#year-div").empty().append('<div class="panel panel-info"><div class="panel-heading"><h3 class="panel-title">年份列表</h3>' +
         '</div><div class="panel-body"><div class="btn-group btn-group-sm center-block" role="group" id="year-btn" aria-label="year">' +
         '</div></div></div>');
+    console.log(arr);
+    $('#year-info').empty();
+    $('#year-info').append('<p stype="text-align: center;"></br>当前展示年份：'+arr[0]+'</p>');
     for (var i in arr) {
         $("#year-div #year-btn").append('<button type="button" class="btn btn-default" name="' + arr[i] + '">' + arr[i] + '</button>');
         console.log(i)
@@ -527,6 +518,10 @@ function addYearButton(arr, data_json, myChart) {
 
             chooseyear=i;
             console.log(i);
+
+            $('#year-info').empty();
+            $('#year-info').append('<p stype="text-align: center;"></br>当前展示年份：'+chooseyear+'</p>');
+
             myChart.setOption({
                 series: [{
                     data: data_json[i].data,

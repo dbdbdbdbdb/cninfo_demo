@@ -32,6 +32,7 @@ def entity_search(str):
 
 def query_result(sparql):
     gc = GstoreConnector('127.0.0.1', 3305)
+    #gc = GstoreConnector('172.31.222.93', 3305)
     # 如果未提前加载数据库,则取消下行代码注释
     gc.load('cninfo')
 
@@ -80,14 +81,19 @@ def template_search(str_to_solve, select_object):
         sparql = ts.sparqlquery5(str_to_solve)
     elif select_object=='capitalchange':
         sparql = ts.sparqlquery1(str_to_solve)
+    elif select_object=='presentative':
+        sparql = ts.sparqlquery6(str_to_solve)
     answer=query_result(sparql)
     #with open('sparql_answer.txt', 'w', encoding='utf-8') as f:
     #    f.write(answer)
     answer_list=conv_node_edge.to_triples_list(answer)
     #conv_table.group2table(answer_list)
-    json_list=conv_table.conv2table(answer_list)
-    json_list=json.dumps(json_list)
-    return json_list
+    if answer_list:
+        json_list=conv_table.conv2table(answer_list)
+        json_list=json.dumps(json_list)
+        return json_list
+    else:
+        return json.dumps([])
 
 # print(template_search('公司的证券号是多少？'))
 # template_search('南华生物医药股份有限公司的证券号是多少')

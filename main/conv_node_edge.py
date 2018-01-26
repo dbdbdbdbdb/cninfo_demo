@@ -194,14 +194,14 @@ def to_relation_list(query_result):
 # 可以加到所有年份的triples(即无时间属性)
 def triple_can_add2all(triple_dict, years_list, triples_per_year_dict):
     #for i in years_list:
-    triples_per_year_dict['all'].append(triple_dict)
+    triples_per_year_dict['basic'].append(triple_dict)
     return
 
 
 def triples_sort_by_year(triples_list):
     # 1.根据triples_list建立year的set集合
     years_set = set()
-    years_set.add('all')
+    years_set.add('basic')
     for i in triples_list:
         # 宾语的type是uri的话,才进入取日期的流程
         if i['z']['type'] == 'uri':

@@ -28,14 +28,13 @@ def home():
             json_plus = query.plus_search(str_to_solve)
             return json_plus
         if search_type == 'extend':
-
             json_extend = query.getJsonNext()
             return json_extend
         if search_type=='search2':
             str_to_solve = request.form.get('str_to_solve')
             select_object = request.form.get('select')
             json_list=query.template_search(str_to_solve, select_object)
-            # print(json_list)
+            #print(json_list)
             return json_list
         if search_type=='search3':
             entity_1 = request.form.get('entity1')
