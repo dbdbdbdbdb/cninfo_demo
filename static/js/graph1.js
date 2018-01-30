@@ -449,8 +449,8 @@ function hearClick(myChart) {
                     }
                     else {
 
-                        nodesOption = mergeArray(nodesOption, data_json[year_arr[year_arr.length - year_arr.length]][data.id].data[data.id]);
-                        linksOption = linksOption.concat(data_json[year_arr[year_arr.length - year_arr.length]][data.id].links[data.id]);
+                        nodesOption = mergeArray(nodesOption, data_json[year_arr[year_arr.length - year_arr.length]].data[data.id]);
+                        linksOption = linksOption.concat(data_json[year_arr[year_arr.length - year_arr.length]].links[data.id]);
                     }
                     myChart.setOption({
                         series: [{
