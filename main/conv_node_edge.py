@@ -38,6 +38,7 @@ def to_triples_list(query_result):
     #query_result = f.read()
     #如果value中包含\n，eval会出错
     query_result = query_result.replace('\n','')
+    query_result = query_result.replace('\\','')
     #双引号转义
     result = re.finditer("value\": \"(.+?)\" }", query_result)
     replacelist = []
@@ -50,7 +51,7 @@ def to_triples_list(query_result):
         lastidx = 0
         for m1 in result1:
             new_s = new_s+ s[lastidx: m1.start()]
-            new_s = new_s+'\\"'
+            new_s = new_s+'\\\"'
             lastidx = m1.end()
             flag=True
         if(flag):
@@ -65,7 +66,7 @@ def to_triples_list(query_result):
     end_offset=query_result.rfind(']')
     #print('offset: ', begin_offset, end_offset)
     try:
-        #print(query_result[begin_offset + 14:end_offset+1])
+
         triples_list = eval(query_result[begin_offset + 14:end_offset+1])
         #print(triples_list)
     except Exception as e:
@@ -506,7 +507,7 @@ def conv2graph(answer):
     # with open('aaa.txt', 'r', encoding='utf-8') as f:
     #     answer = f.read()
     triples_list = to_triples_list(answer)
-    #print(triples_list)
+    print(triples_list)
     triples_per_year_dict = triples_sort_by_year(triples_list)
     #print(triples_per_year_dict)
     dls_per_year_dict = {}
