@@ -16,9 +16,7 @@ app = Flask(__name__, static_folder='static', static_url_path='/static')
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
-        str_to_solve = request.form.get('str_to_solve')
         search_type = request.form.get('search_type')
-        select_object = request.form.get('select')
         if search_type == 'search1':
             str_to_solve = request.form.get('str_to_solve')
             json_str = query.entity_search(str_to_solve)
@@ -42,13 +40,20 @@ def home():
             json_list=query.relation_search(entity_1, entity_2)
             return json_list
         if search_type=='init':
-            names = searchtool.getorgname();
+            names = searchtool.getorgname()
             return json.dumps(names, ensure_ascii=False)
-
+        if search_type=='relation':
+            entity_1 = request.form.get('entity1')
+            print(entity_1)
+            if len(entity_1)>0:
+                nameset = query.relation_search1(entity_1)
+            else:
+                nameset = set()
+            return json.dumps(list(nameset), ensure_ascii=False)
     return render_template('index.html')
 
 
 if __name__ == '__main__':
-    app.run(debug=False,host='0.0.0.0')
+    app.run(debug=True,host='0.0.0.0')
 
 

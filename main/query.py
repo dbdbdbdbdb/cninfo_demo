@@ -31,10 +31,10 @@ def entity_search(str):
 
 
 def query_result(sparql):
-    gc = GstoreConnector('127.0.0.1', 3305)
-    #gc = GstoreConnector('172.31.222.93', 3305)
+    #gc = GstoreConnector('172.31.222.74', 3306)
+    gc = GstoreConnector('172.31.222.93', 3305)
     # 如果未提前加载数据库,则取消下行代码注释
-    gc.load('cninfo')
+    gc.load('cninfo_web')
 
     # # sparql = '''select ?x ?y ?z
     # # {
@@ -129,3 +129,30 @@ def relation_search(entity1, entity2):
     data_dict = conv_node_edge.conv2graph_dict(nodes, links)
     json_list = json.dumps(data_dict)
     return json_list
+
+def relation_search1(entity1):
+    pred_org = '<http://cn.info/vocab/organization_ORGNAME>'
+    pred_person = '<http://cn.info/vocab/naturalperson_PERSONNAME>'
+    if len(entity1)>4:
+        pred1 = pred_org
+    else:
+        pred1 = pred_person
+    sparql1='select ?name\n' + \
+        '{\n' + \
+        '\t?x1 ' + pred1 + ' "' + entity1 + '".\n' + \
+        '\t?x2 ' + pred_org + ' ?name.\n' + \
+        '\t?x1 ?y1 ?z.\n' + \
+        '\t?z ?y2 ?x2.\n}'
+    answer1 = query_result(sparql1)
+    nameset1 = conv_node_edge.to_name_list(answer1)
+    print(nameset1)
+    sparql2 = 'select ?name\n' + \
+              '{\n' + \
+              '\t?x1 ' + pred1 + ' "' + entity1 + '".\n' + \
+              '\t?x2 ' + pred_person + ' ?name.\n' + \
+              '\t?x1 ?y1 ?z.\n' + \
+              '\t?z ?y2 ?x2.\n}'
+    answer2 = query_result(sparql2)
+    nameset2 = conv_node_edge.to_name_list(answer2)
+    print(nameset2)
+    return nameset1|nameset2

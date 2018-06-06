@@ -155,24 +155,54 @@ var option = {
     ]
 };
 
-
 $(document).ready(function () {
 
     $.ajax({
         type: "POST",
-            url: "/",
-            data: {'search_type': 'init'},
-            success: function(recommend_list) {
-                $('input.completer').completer({
-                    source: recommend_list,
-                    suggest: true
-                })
-                console.log('recommend ready.');
-            },
-            error: function(error) {
-                console.log(error);
-            }
-    })
+        url: "/",
+        data: {'search_type': 'init'},
+        success: function (recommend_list) {
+            /*
+            $('input.completer').completer({
+                source: recommend_list,
+                suggest: true
+            });*/
+            console.log(typeof(recommend_list));
+            $('input.completer').autocomplete({
+                source: JSON.parse(recommend_list)
+            });
+            console.log('recommend ready.');
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+
+    $('#search3-input2').autocomplete({
+        minLength: 0,
+        source: function(request, response){
+            inputv = $('#search3-input1')[0].value;
+            var entName = $('#search3-input2').val();
+            matcher = new RegExp($.ui.autocomplete.escapeRegex( request.term ), "i" );
+            console.log(matcher);
+            $.ajax({
+                url: "/",
+                type: "POST",
+                cache: false,
+                data: {'search_type': 'relation', 'entity1': inputv},
+                success: function (entData) {
+                    entDataArr = JSON.parse(entData);
+                    response($.grep(entDataArr, function(item){
+                        return matcher.test(item);
+                    }));
+                }
+            })
+        },
+        focus: function (event, ui) {
+                    $("#search3-input").val(ui.item.entName);
+                    return false;
+                },
+    }).bind('focus',function(){ $(this).autocomplete("search"); });
 
     console.log("ready!");
     // 监听表单提交
@@ -189,7 +219,7 @@ $(document).ready(function () {
         console.log(first, second, third);
         if (second === 'search1') {
             $('#year-info').empty();
-        $('#year-info').append('<p stype="text-align: center;"></br>Please wait a moment...</p>');
+            $('#year-info').append('<p stype="text-align: center;"></br>Please wait a moment...</p>');
             $('#main1').empty();
             $.ajax({
                 type: "POST",
@@ -208,15 +238,15 @@ $(document).ready(function () {
                     year_arr = Object.keys(data_json);
                     console.log(year_arr[year_arr.length - 1]);
                     // console.log(data_json);
-                    tmpdata=data_json[year_arr[year_arr.length - 1]].data;
+                    tmpdata = data_json[year_arr[year_arr.length - 1]].data;
 
-                    tmpdata=removeDuplicatedItem(tmpdata);
+                    tmpdata = removeDuplicatedItem(tmpdata);
                     console.log(tmpdata);
 
-                    tmplink=data_json[year_arr[year_arr.length - 1]].links;
+                    tmplink = data_json[year_arr[year_arr.length - 1]].links;
 
-                    console.log(Object.prototype.toString.call(tmplink)) ;
-                    tmplink=removeDuplicatedItem(tmplink);
+                    console.log(Object.prototype.toString.call(tmplink));
+                    tmplink = removeDuplicatedItem(tmplink);
                     console.log(tmplink);
 
                     myChart.setOption({
@@ -249,12 +279,12 @@ $(document).ready(function () {
                     //console.log(typeof json_str);
                     //console.log(json_str)
                     json_list = JSON.parse(json_str);
-                    if(json_list.length>0){
+                    if (json_list.length > 0) {
                         console.log("not empty");
                         console.log(Array.isArray(json_list));
                         crt_table(json_list);
                     }
-                    else{
+                    else {
                         console.log("empty");
                         $('#main2').append('<br/>无查询结果');
                     }
@@ -286,7 +316,7 @@ $(document).ready(function () {
             entity_2 = inputv[1].value;
 
             $.ajax({
-               type: "POST",
+                type: "POST",
                 url: "/",
                 cache: false,
                 data: {'search_type': second, 'entity1': entity_1, 'entity2': entity_2},
@@ -297,7 +327,7 @@ $(document).ready(function () {
                     console.log(data_json);
                     console.log(data_json.data.length);
                     console.log(data_json.links.length);
-                    if(data_json.data.length>0 && data_json.links.length>0) {
+                    if (data_json.data.length > 0 && data_json.links.length > 0) {
                         console.log("not empty");
                         $('#main-parent3').empty();
                         $('#main-parent3').append('<div id="main3" style="width:1200px;height: 600px;"></div>');
@@ -329,8 +359,6 @@ $(document).ready(function () {
     });
 
 });
-
-
 
 function hearClick(myChart) {
     //监听双击事件,进行动态获取数据的处理

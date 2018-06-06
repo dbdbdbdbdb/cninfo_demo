@@ -615,3 +615,36 @@ def plus2graph(answer, data_id):
     plus_dict['links'] = edges_list
     json_plus = json.dumps(plus_dict)
     return json_plus
+
+
+def to_name_list(query_result):
+    #f = open('sparql_answer.txt', encoding='utf-8')
+    #query_result = f.read()
+    #如果value中包含\n，eval会出错
+    query_result = query_result.replace('\n','')
+    # 找到bindings的起始位置
+    begin_offset = query_result.find('"bindings":')
+    end_offset=query_result.rfind(']')
+    #print('offset: ', begin_offset, end_offset)
+    try:
+        #print(query_result[begin_offset + 14:end_offset+1])
+        triples_list = eval(query_result[begin_offset + 14:end_offset+1])
+        #print(triples_list)
+    except Exception as e:
+        print(e)
+        return
+    # 演示操作.链式操作对应列表-字典-字典-键值对的数据层级.
+    # print(triples_list[len(triples_list) - 1]['z']['type'])
+
+    nodes_list = []
+    # 建立node的set集合,便于用于比较是否存在而去重
+    name_set = set()
+    # 建立存储边的列表
+
+    for i in triples_list:
+        # 对x和y的type进行判断,进而先建立字符串形式的(id,name,category)的节点唯一值set集合
+        if i['name']['type'] == 'literal':
+            name = i['name']['value']
+            name_set.add(name)
+
+    return name_set
